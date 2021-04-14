@@ -22,4 +22,14 @@ router.get('/', (req, res) => {
       console.log(err.message);
     })
 })
+
+router.get('/:id', (req,res) => {
+    Post.findById(req.params.id).lean()
+        .then(post => {
+            res.render("posts-show", {post})
+        })
+        .catch(err => {
+            console.log(err.message)
+        })
+})
 export default router
