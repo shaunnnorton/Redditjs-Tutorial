@@ -18,7 +18,7 @@ app.set("views", "./src/views")
 
 app.use('/',routes.homepage)
 app.use('/posts',routes.posts)
-require('./controllers/posts.js')(app)
+// require('./controllers/posts.js')(app)
 
 
 const port = 3000
