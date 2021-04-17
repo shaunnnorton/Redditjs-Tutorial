@@ -29,8 +29,8 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('posts/:id', (req,res) => {
-    Post.findById(req.params.id).lean()
+router.get('/posts/:id', (req,res) => {
+    Post.findById(req.params.id).lean().populate('comments')
         .then(post => {
             res.render("posts-show", {post})
         })
