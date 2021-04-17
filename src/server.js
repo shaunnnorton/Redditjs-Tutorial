@@ -17,7 +17,7 @@ app.set("views", "./src/views")
 
 
 app.use('/',routes.homepage)
-app.use('/posts',routes.posts)
+app.use('/',routes.posts)
 // require('./controllers/posts.js')(app)
 
 
