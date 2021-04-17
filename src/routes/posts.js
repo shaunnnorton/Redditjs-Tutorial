@@ -6,14 +6,20 @@ const router = Router()
 router.get('/posts/new', (req,res)=>{
     res.render('posts-new')
 })
-router.post("/new", (req, res) => {
-  const post = new Post(req.body)
+router.post("/posts/new", (req, res) => {
+  console.log(req.body)
+  const post = new Post({
+    title:req.body.title,
+    url:req.body.url,
+    summary:req.body.url,
+    subreddit:req.body.subreddit.replace(/ /g,'').split(",")
+  })
   post.save((err, post) => {
       return res.redirect(`/`)
   })
 });
 
-router.get('/posts', (req, res) => {
+router.get('/', (req, res) => {
   Post.find({}).lean()
     .then(posts => {
       res.render('posts-index', { posts });
