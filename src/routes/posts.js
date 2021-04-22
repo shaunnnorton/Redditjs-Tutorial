@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import Post from "../models/post"
 import auth from "../utils/auth"
+import User from "../models/user"
 
 const router = Router()
 
@@ -16,15 +17,26 @@ router.post("/posts/new",auth.CheckAuth ,(req, res) => {
     title:req.body.title,
     url:req.body.url,
     summary:req.body.url,
-    subreddit:req.body.subreddit.replace(/ /g,'').split(",")
+    subreddit:req.body.subreddit.replace(/ /g,'').split(","),
+    author:req.user._id
   })
-  post.save((err, post) => {
-      return res.redirect(`/`)
-  })
+  post
+    .save()
+    .then(post => {
+      return User.findById(req.user._id)
+    })
+    .then(user => {
+      user.posts.unshift(post)
+      user.save()
+      res.redirect(`/posts/${post._id}`)
+    })
+    .catch(err => {
+      console.log(err.message)
+    })
 });
 
 router.get('/', (req, res) => {
-  Post.find({}).lean()
+  Post.find({}).lean().populate('author')
     .then(posts => {
       res.render('posts-index', { posts });
     })
@@ -34,7 +46,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/posts/:id', (req,res) => {
-    Post.findById(req.params.id).lean().populate('comments')
+    Post.findById(req.params.id).lean().populate('comments').populate('author')
         .then(post => {
             res.render("posts-show", {post})
         })
@@ -44,7 +56,7 @@ router.get('/posts/:id', (req,res) => {
 })
 
 router.get("/n/:subreddit", (req,res) => {
-  Post.find({subreddit: req.params.subreddit }).lean()
+  Post.find({subreddit: req.params.subreddit }).lean().populate('author')
     .then( posts => {
       res.render("posts-index", {posts})
     })
