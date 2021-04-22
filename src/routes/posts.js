@@ -1,12 +1,16 @@
 import {Router} from 'express'
 import Post from "../models/post"
+import auth from "../utils/auth"
 
 const router = Router()
 
-router.get('/posts/new', (req,res)=>{
+// console.log(auth.CheckAuth)
+// router.use("/posts/new", auth.CheckAuth)
+
+router.get('/posts/new', auth.CheckAuth ,(req,res)=>{
     res.render('posts-new')
 })
-router.post("/posts/new", (req, res) => {
+router.post("/posts/new",auth.CheckAuth ,(req, res) => {
   console.log(req.body)
   const post = new Post({
     title:req.body.title,
