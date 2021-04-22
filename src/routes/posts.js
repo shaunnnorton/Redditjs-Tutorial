@@ -46,7 +46,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/posts/:id', (req,res) => {
-    Post.findById(req.params.id).lean().populate('comments').populate('author')
+    Post.findById(req.params.id).lean().populate({path:"comments", populate: {path:"author"}}).populate('author')
         .then(post => {
             res.render("posts-show", {post})
         })
