@@ -14,7 +14,9 @@ describe("Posts", function () {
     const newPost = {
         title: "post title",
         url: "https://www.google.com",
-        summary: 'post summary'
+        summary: 'post summary',
+        subreddit:"SAMPLESUBREDDIT",
+        author:"dddddddddddd"
     }
     it("Should create with valid atributs at POST /posts/new", function(done) {
         Post.estimatedDocumentCount()
@@ -47,6 +49,7 @@ describe("Posts", function () {
             if(err) console.log(err)
             console.log("Successful Deleation")
         })
+        agent.close()
     })
     
 })
