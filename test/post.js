@@ -5,6 +5,7 @@ const expect = chai.expect
 
 import Post from "./../src/models/post"
 import server from "./../src/server"
+import User from "./../src/models/user"
 
 chai.should()
 chai.use(chaiHttp)
@@ -16,9 +17,29 @@ describe("Posts", function () {
         url: "https://www.google.com",
         summary: 'post summary',
         subreddit:"SAMPLESUBREDDIT",
-        author:"dddddddddddd"
     }
-    it("Should create with valid atributs at POST /posts/new", function(done) {
+    const user = {
+        username: "poststest",
+        password: 'testposts'
+    }
+
+    before((done) => {
+        agent
+            .post("/sign-up")
+            .set("content-type", "application/x-www-form-urlencoded")
+            .send(user)
+            .then((res)=>{
+                done()
+            })
+            .catch((err) => {
+                done(err)
+            })
+    })
+
+
+
+
+    it("Should create with valid atributes at POST /posts/new", function(done) {
         Post.estimatedDocumentCount()
             .then(function (initialDocCount) {
                 agent
@@ -44,12 +65,21 @@ describe("Posts", function () {
                 done(err)
             })
     })
-    after(function () {
-        Post.findOneAndDelete(newPost, function(err) {
-            if(err) console.log(err)
-            console.log("Successful Deleation")
+    after(function (done) {
+        Post.findOneAndDelete(newPost)
+        .then( res => {
+            agent.close()
+            User.findOneAndDelete({username: user.username})
+            .then(res=>{
+                done()
+            })
+            .catch(err=>{
+                done(err)
+            })
         })
-        agent.close()
+        .catch(err=>{
+            done(err)
+        })
     })
     
 })
