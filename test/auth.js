@@ -32,6 +32,30 @@ describe("Auth", function() {
           })
       })
   })
+
+  it("Should be able to sign in", (done) => {
+      agent
+        .post("/login")
+        .send({ username: "testone", password: "password" })
+        .end((err,res) => {
+            res.should.have.status(200)
+            agent.should.have.cookie("nToken")
+            done()
+        })
+  })
+
+  it("Should be able to logout", done => {
+      agent
+        .get("/logout")
+        .end((err,res) => {
+            res.should.have.status(200)
+            agent.should.not.have.cookie("nToken")
+            done()
+        })
+  })
+
+
+
   after( () => {
       agent.close()
   })

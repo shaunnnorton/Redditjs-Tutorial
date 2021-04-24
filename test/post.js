@@ -65,6 +65,24 @@ describe("Posts", function () {
                 done(err)
             })
     })
+
+    it("Should not be able to create a post", done => {
+        agent.get("/logout")
+        .then(()=>{
+            agent
+            .post("/posts/new")
+            .set('content-type', "application/x-www-form-urlencoded")    
+            .send(newPost)
+            .end((err,res) => {
+                res.should.have.status(401)
+                done()
+            })  
+        })
+        
+    })
+    
+
+
     after(function (done) {
         Post.findOneAndDelete(newPost)
         .then( res => {
