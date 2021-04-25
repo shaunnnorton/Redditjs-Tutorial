@@ -3,6 +3,8 @@ import Post from "../models/post"
 import auth from "../utils/auth"
 import User from "../models/user"
 
+
+
 const router = Router()
 
 // console.log(auth.CheckAuth)
@@ -68,7 +70,7 @@ router.get("/n/:subreddit", (req,res) => {
     })
 })
 
-router.put("/posts/:id/vote-up", (req,res) => {
+router.put("/posts/:id/vote-up",auth.CheckAuth ,(req,res) => {
   Post.findById(req.params.id).exec((err,post) => {
     post.upVotes.push(req.user._id)
     post.voteScore ++
@@ -77,7 +79,7 @@ router.put("/posts/:id/vote-up", (req,res) => {
   })
 })
 
-router.put("/posts/:id/vote-down", (req,res) => {
+router.put("/posts/:id/vote-down",auth.CheckAuth ,(req,res) => {
   Post.findById(req.params.id).exec((err,post) => {
     post.downVotes.push(req.user._id)
     post.voteScore --

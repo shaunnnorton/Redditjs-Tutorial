@@ -2,23 +2,26 @@
     <div class="col-sm-8 col-sm-offset">
         <ul class="list-group">
             {{# each posts}}
-                <li class="list-group-item">
-                    <div class="lead"><a href="/posts/{{this._id}}">{{this.title}}</a></div>
-                    <a href="{{this.url}}" target="_blank">{{this.url}}</a>
-                    <div><small>{{this.author.username}}</small></div>
-                    <div class="text-right">
-                        {{# each this.subreddit}}
-                        <a href="/n/{{this}}">{{this}},</a>
-                        {{/each}}
-                    </div>
+            <li class="list-group-item">
+                <div class="lead"><a href="/posts/{{this._id}}">{{this.title}}</a></div>
+                <a href="{{this.url}}" target="_blank">{{this.url}}</a>
+                <div><small>{{this.author.username}}</small></div>
+                <div class="text-right">
+                    {{# each this.subreddit}}
+                    <a href="/n/{{this}}">{{this}},</a>
+                    {{/each}}
+                </div>
+                <div class="voting d-flex align-items-center ml-auto">
+
                     <form class="vote-up" data-id="{{this._id}}">
-                        <button type="submit">Vote Up</button>
+                        <button type="submit" class="upvote"><img src="/images/uparrow.png" alt=""></button>
                     </form>
-                    |
+                    {{this.voteScore}}
                     <form class="vote-down" data-id="{{this._id}}">
-                        <button type="submit">Vote Down</button>
+                        <button type="submit" class="downvote"><img src="/images/downarrow.png" alt=""></button>
                     </form>
-                </li>
+                </div>
+            </li>
             {{/each}}
         </ul>
     </div>

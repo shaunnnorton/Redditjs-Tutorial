@@ -4,6 +4,17 @@
     <p>{{post.summary}}</p>
     <p>{{post.author.username}}</p>
   </div>
+  <div class="voting d-flex flex-column align-items-center ml-auto">
+    <form class="vote-up-post" data-id="{{post._id}}">
+      <button type="submit" class="upvote"><img src="/images/uparrow.png" alt=""></button>
+    </form>
+    {{post.voteScore}}
+    <form class="vote-down-post" data-id="{{post._id}}">
+      <button type="submit" class="downvote"><img src="/images/downarrow.png" alt=""></button>
+    </form>
+  </div>
+
+
 </div>
 <form action="/posts/{{post._id}}/comments" method="post" class="w-100">
   <textarea class='form-control' name="content" placeholder="Comment"></textarea>
@@ -12,5 +23,5 @@
   </div>
 </form>
 {{#each post.comments}}
-  {{> comment comment=this postId=../post._id}}
+{{> comment comment=this postId=../post._id}}
 {{/each}}

@@ -12,3 +12,27 @@
 .comment a {
     color: green;
 }
+
+.upvote {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border: none;
+}
+
+.upvote img {
+    max-width: 100%;
+    background-color: none;
+}
+
+.downvote {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border: none;
+}
+
+.downvote img {
+    max-width: 100%;
+    background-color: none;
+}
