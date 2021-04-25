@@ -20,6 +20,9 @@ router.post("/posts/new",auth.CheckAuth ,(req, res) => {
     subreddit:req.body.subreddit.replace(/ /g,'').split(","),
     author:req.user._id
   })
+  post.upVotes = []
+  post.downVotes = []
+  post.voteScore = 0
   post
     .save()
     .then(post => {
@@ -63,6 +66,24 @@ router.get("/n/:subreddit", (req,res) => {
     .catch(err => {
       console.log(err)
     })
+})
+
+router.put("/posts/:id/vote-up", (req,res) => {
+  Post.findById(req.params.id).exec((err,post) => {
+    post.upVotes.push(req.user._id)
+    post.voteScore ++
+    post.save()
+    res.status(200)
+  })
+})
+
+router.put("/posts/:id/vote-down", (req,res) => {
+  Post.findById(req.params.id).exec((err,post) => {
+    post.downVotes.push(req.user._id)
+    post.voteScore --
+    post.save()
+    res.status(200)
+  })
 })
 
 export default router
