@@ -43,6 +43,7 @@ app.use('/',routes.homepage)
 app.use('/',routes.posts)
 app.use('/',routes.comments)
 app.use('/',routes.auth)
+app.use('/',routes.replies)
 // require('./controllers/posts.js')(app)
 
 

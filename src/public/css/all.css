@@ -1,0 +1,14 @@
+.comment-indent {
+    padding-left: 20px;
+}
+
+.comment {
+    padding-top:3px;
+    
+    border-left: 3px solid black;
+    border-radius: 10px 0px 0px 10px;
+    background-color: rgba(100, 100, 100, .5);
+} 
+.comment a {
+    color: green;
+}
