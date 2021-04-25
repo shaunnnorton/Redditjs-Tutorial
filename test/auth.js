@@ -56,7 +56,10 @@ describe("Auth", function() {
 
 
 
-  after( () => {
+  after( (done) => {
       agent.close()
+      User.findOneAndRemove({username:"testone"}).then(()=>{
+        done()
+      })
   })
 });

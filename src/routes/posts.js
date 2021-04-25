@@ -46,7 +46,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/posts/:id', (req,res) => {
-    Post.findById(req.params.id).lean().populate({path:"comments", populate: {path:"author"}}).populate('author')
+    Post.findById(req.params.id).lean().populate("comments")
         .then(post => {
             res.render("posts-show", {post})
         })
@@ -56,7 +56,7 @@ router.get('/posts/:id', (req,res) => {
 })
 
 router.get("/n/:subreddit", (req,res) => {
-  Post.find({subreddit: req.params.subreddit }).lean().populate('author')
+  Post.find({subreddit: req.params.subreddit }).lean()
     .then( posts => {
       res.render("posts-index", {posts})
     })

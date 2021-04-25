@@ -84,7 +84,7 @@ describe("Posts", function () {
 
 
     after(function (done) {
-        Post.findOneAndDelete(newPost)
+        Post.findOneAndDelete({title:"post title"})
         .then( res => {
             agent.close()
             User.findOneAndDelete({username: user.username})
