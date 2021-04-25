@@ -2,10 +2,11 @@ import { Router } from "express"
 import Post from "../models/post"
 import Comment from "../models/comment"
 import User from "../models/comment"
+import CheckAuth from "../utils/Auth"
 
 const router = Router()
 
-router.get("/posts/:postId/comments/:commentId/replies/new", (req,res) => {
+router.get("/posts/:postId/comments/:commentId/replies/new", CheckAuth.CheckAuth ,(req,res) => {
     let currentUser = req.user
     let post
     Post.findById(req.params.postId).lean()
@@ -20,7 +21,7 @@ router.get("/posts/:postId/comments/:commentId/replies/new", (req,res) => {
             console.log(err.message)
         })
 })
-router.post("/posts/:postId/comments/:commentId/replies", (req, res) => {
+router.post("/posts/:postId/comments/:commentId/replies", CheckAuth.CheckAuth ,(req, res) => {
     const reply = new Comment(req.body)
     reply.author = req.user._id
     Post.findById(req.params.postId)
